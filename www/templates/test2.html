@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/all.css">
+    <script src="../static/js/all.js"></script>
+    <!--<script src="md5.min.js"></script>-->
+    <script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+
+    <script>
+        'use strict';
+
+        function ajax(method, url, data) {
+            let request = new XMLHttpRequest(); // 新建XMLHttpRequest对象
+            return new Promise(function (resolve, reject) { // 返回Promise对象
+                request.onreadystatechange = function () { // 状态发生变化时, 函数被回调
+                    if (request.readyState === 4) {
+                        if (request.status === 200) {
+                            // 成功, 通过responseText拿到响应的文本
+                            resolve(request.responseText);
+                        } else {
+                            // 失败, 根据响应码判断失败原因
+                            reject(request.status);
+                        }
+                    }
+                };
+                request.open(method, url);
+                request.send(); // 发送请求
+                alert('请求已发送，请等待响应...');
+            });
+        }
+
+        $(function () {
+
+            let ret = document.getElementById('test-promise-ajax-result');
+            let p = ajax('GET', '/api/test');
+            p.then(function (text) { // 如果AJAX成功, 获得响应内容
+                ret.innerText = text;
+            }).catch(function (status) { // 如果AJAX失败, 获得响应代码
+                ret.innerText = `ERROR: ${status}`;
+            });
+        });
+
+
+        /*
+
+        function success(text) { //  请求成功做什么
+            let textarea = document.getElementById('test-response-text');
+            textarea.value = text;
+        }
+
+        function fail(code) { //  请求失败做什么
+            let textarea = document.getElementById('test-response-text');
+            textarea.value = 'Error code: ' + code;
+        }
+
+        $(function () {
+            let request = new XMLHttpRequest(); // 新建XMLHttpRequest对象
+            request.onreadystatechange = function () { // 状态发生变化时, 函数被回调
+                if (request.readyState === 4) { // 成功完成
+                    // 判断响应结果
+                    if (request.status === 200) {
+                        // 成功, 通过responseText拿到响应的文本
+                        return success(request.responseText);
+                    } else {
+                        // 失败, 根据响应码判断失败原因
+                        return fail(request.status);
+                    }
+                } else {
+                    // HTTP请求还在继续...
+                }
+            };
+            // ajax不能跨域请求, 自己写个服务器呗…
+            request.open('GET', '/api/test');
+            request.send(); // 发送请求
+            alert('请求已发送，请等待响应...');
+        });
+        */
+
+
+    </script>
+
+    <style>
+        .box {
+            width: 500px;
+            border: solid 1px #ccc;
+            padding: 1em;
+            margin: 20px;
+            font: 20px/24px "Microsoft YaHei";
+        }
+    </style>
+
+
+</head>
+<body>
+<form class="uk-form uk-form-stack" action="#20">
+<pre id="pre-online-run-code-1"
+     style="font-size: 14px; margin-bottom: 0px; border-bottom: none; padding: 6px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">// test
+</pre>
+    <textarea id="textarea-online-run-code-1" onkeyup="adjustTextareaHeight(this)" class="uk-width-1-1 x-codearea"
+              rows="10" style="overflow: scroll; border-top-left-radius: 0; border-top-right-radius: 0;">
+</textarea>
+    <button type="button" onclick="run_javascript('online-run-code-1', this)" class="uk-button uk-button-primary"
+            style="margin-top:15px;"><i class="uk-icon-play"></i> Run
+    </button>
+    <div class="x-code-result x-code uk-alert"><br>
+    </div>
+</form>
+
+<hr>
+
+<div class="box">
+    <p>Result:</p>
+    <p id="test-promise-ajax-result"></p>
+</div>
+</body>
+</html>
+
+
+

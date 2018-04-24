@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/static/js/hikari.js"></script>
+    <script>
+        'use strict';
+        $(function () {
+            // jQuery的jqXHR对象类似于Promise对象, 可以用链式写法处理各种回调
+            let jqxhr = $.ajax('/api/test', {
+                dataType: 'json'
+            }).done(function (data) {
+                print(`成功收到数据：${JSON.stringify(data)}`);
+            }).fail(function (xhr, status) {
+                print(`失败：${xhr.status}', 原因：${status}`);
+            }).always(function () {
+                print('请求完成: 无论成功或失败都会调用');
+            });
+
+        });
+    </script>
+    <style>
+        * {
+            font: 16px/20px "Microsoft Yahei";
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
